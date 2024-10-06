@@ -20,9 +20,13 @@ type NetworkDevice struct {
 	Addresses []DeviceAddress
 }
 
+// Scanner is the main interface for monitoring
+// network connections
 type Scanner struct {
 }
 
+// GetNetworkDevices returns all available network interfaces on the
+// hosting machine
 func (s* Scanner) GetNetworkDevices() (*[]NetworkDevice, error) {
 	result := []NetworkDevice{}
 
