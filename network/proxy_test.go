@@ -2,32 +2,38 @@ package network
 
 
 import (
+    "context"
     "testing"
+    "time"
 )
 
 func TestNewProxy(t *testing.T) {
+	ctx, _ := context.WithCancel(context.Background())
+	p, err := NewProxy(ctx)
+
+	if err != nil {
+		t.Fatalf("Expected no error, but got error: %v", err)
+	}
+
+	t.Log(p)
 }
 
-/*
-func TestGetNetworkDevices(t *testing.T) {
-    scanner := &Scanner{} // Initialize the scanner
+func TestStartProxy(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	p, err := NewProxy(ctx)
 
-    // Call the function
-    devicesPtr, err := scanner.GetNetworkDevices()
+	if err != nil {
+		t.Fatalf("Expected no error, but got error: %v", err)
+	}
 
-    // Check if an error occurred (it shouldn't in this case)
-    if err != nil {
-        t.Fatalf("Expected no error, but got: %v", err)
-    }
+	t.Log(p)
 
-    // Ensure that devicesPtr is not nil
-    if devicesPtr == nil {
-        t.Fatalf("Expected a non-nil pointer to a slice, but got nil")
-    }
+	go p.Start()
 
-    // Dereference the pointer to get the slice
-    devices := *devicesPtr
+	// Perform some basic checks here, such as get localhost
+	time.Sleep(7 * time.Second)
 
-    t.Log(devices)
+	p.Stop()
+	cancel()
 }
-*/
+
